@@ -15,14 +15,22 @@ async def test_top(dut: DUTCoupledL2):
     tlbundle.set_all(0)
     tlagent = TileLinkAgent(tlbundle)
 
-    await tlagent.aquire_block(0x100000)
-    for _ in range(10):
-        send_data = random.randint(0, 2**512)
-        await tlagent.release_data(0x100000, send_data)
-        ret_data = await tlagent.aquire_block(0x100000)
 
-        print(f"Send Data: {hex(send_data)}\nRet Data: {hex(ret_data)}")
-        assert ret_data == send_data
+    ref_data = [0] * 0x10
+    
+    for _ in range(100):
+
+        # Read
+        address = random.randint(0, 0xF) << 6
+        r_data = await tlagent.aquire_block(address)
+        print(f"Read {address} = {hex(r_data)}")
+        assert r_data == ref_data[address>>6]
+
+        # Write
+        send_data = random.randint(0, 2**512)
+        await tlagent.release_data(address, send_data)
+        ref_data[address>>6] = send_data
+        print(f"Write {address} = {hex(send_data)}")
 
 
 if __name__ == "__main__":
