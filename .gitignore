@@ -1,0 +1,7 @@
+**__pycache__
+**sim_build/
+*.log
+*.fst
+*.vcd
+*.xml
+**out

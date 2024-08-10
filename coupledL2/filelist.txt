@@ -1,0 +1,9 @@
+/home/xyl/exp/coupledL2/rtl/array_ext.v
+/home/xyl/exp/coupledL2/rtl/TestTop.v
+/home/xyl/exp/coupledL2/rtl/mem_ext.v
+/home/xyl/exp/coupledL2/rtl/array_2_ext.v
+/home/xyl/exp/coupledL2/rtl/ClockGate.v
+/home/xyl/exp/coupledL2/rtl/array_0_ext.v
+/home/xyl/exp/coupledL2/rtl/LogPerfHelper.v
+/home/xyl/exp/coupledL2/rtl/array_mcp2_ext.v
+/home/xyl/exp/coupledL2/rtl/array_1_ext.v
