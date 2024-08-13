@@ -91,6 +91,8 @@ class TileLinkAgent(Agent):
         data = 0x0
         for i in range(2):
             ret = await self.get_d()
+            while ret["opcode"] != TilelinkOPCodes.D.GrantData:
+                ret = await self.get_d()
             data = (ret["data"] << (256 * i)) | data
 
         await self.put_e({'sink': ret["sink"]})
@@ -108,4 +110,6 @@ class TileLinkAgent(Agent):
             })
             data = data >> 256
 
-        return await self.get_d()
+        x = await self.get_d()
+        while x["opcode"] != TilelinkOPCodes.D.ReleaseAck:
+            x = await self.get_d()

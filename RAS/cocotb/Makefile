@@ -15,7 +15,7 @@ SIM ?= verilator
 
 # Additional Verilator arguments (if using Verilator)
 # Uncomment and use the following lines if you switch to Verilator
-EXTRA_ARGS +=  --trace --coverage
+EXTRA_ARGS +=  --trace-fst --coverage
 PLUSARGS += --trace
 # VERILATOR_CXX_FLAGS += -I$(shell cocotb-config --share)/include
 # VERILATOR_LDFLAGS += -L$(shell cocotb-config --lib-dir) -lcocotbvpi_verilator

@@ -5,3 +5,6 @@
 *.vcd
 *.xml
 **out
+*.dat
+
+**/picker/env/UT_*

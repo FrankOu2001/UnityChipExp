@@ -120,7 +120,7 @@ async def dff_simple_test(dut):
 
     # AcquireBlock & WriteBack & ReadAgain
     ref_data = [0] * 0x10
-    for i in range(100):
+    for i in range(4000):
 
         # Read
         address = random.randint(0, 0xF) << 6
@@ -136,4 +136,3 @@ async def dff_simple_test(dut):
         ref_data[address>>6] = data
         print(f"Write {address} = {hex(data)}")
         await ReleaseAck(dut)
-    

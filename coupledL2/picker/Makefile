@@ -48,7 +48,7 @@ dut:
 	@mkdir -p out
 	rm -rf ${TARGET}
 	picker export ${TOP_ENTRY} --sname ${TOP_MODULE} --tname ${TARGET_NAME} --fs ${TOP_FILES} --lang ${TL} -c\
-		--tdir ${TARGET} ${_WAVEFORM}${_EXAMPLE} ${_VERBOSE} --cp_lib
+		--tdir ${TARGET} ${_WAVEFORM}${_EXAMPLE} ${_VERBOSE} --cp_lib true
 
 clean:
 	rm -rf ${TARGET}

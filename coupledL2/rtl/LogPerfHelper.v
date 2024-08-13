@@ -11,6 +11,10 @@ module LogPerfHelper (
   output        dump
 );
 
+  assign timer = 64'h0;
+  assign logEnable = 1'b0;
+  assign clean = 1'b0;
+  assign dump = 1'b0;
 
 endmodule
 
