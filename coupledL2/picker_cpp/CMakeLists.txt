@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.11)
 
 set(ModuleName CoupledL2)
-project(picker_cpp CXX)
+project(test_coupledL2 CXX)
 
 
 set(CMAKE_CXX_STANDARD 20 )
@@ -32,5 +32,5 @@ set(DUT_MODULE_DIR ${CMAKE_SOURCE_DIR}/out/picker_out_coupledL2/UT_CoupledL2)
 
 include_directories(${DUT_MODULE_DIR})
 link_directories(${DUT_MODULE_DIR})
-add_executable(picker_cpp test_dut.cpp ${DUT_MODULE_DIR}/UT_${ModuleName}.cpp)
-target_link_libraries(picker_cpp UT${ModuleName} xspcomm ${CMAKE_DL_LIBS})
+add_executable(test_coupledL2 test_dut.cpp ${DUT_MODULE_DIR}/UT_${ModuleName}.cpp)
+target_link_libraries(test_coupledL2 UT${ModuleName} xspcomm ${CMAKE_DL_LIBS})

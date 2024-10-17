@@ -27,8 +27,7 @@ static auto &clk = dut.xclock;
 inline void sendA(const OpcodeA opcode, const uint32_t size, const uint32_t address) {
   const auto &valid = dut.master_port_0_0_a_valid;
   const auto &ready = dut.master_port_0_0_a_ready;
-  while (ready.value == 0x0)
-    clk.Step();
+  while (ready.value == 0x0) clk.Step();
   valid.value = 1;
   dut.master_port_0_0_a_bits_opcode.value = opcode;
   dut.master_port_0_0_a_bits_param.value = 0x0;
@@ -66,17 +65,12 @@ inline void sendC(const OpcodeC opcode, const uint32_t size, const uint32_t addr
   const auto &valid = dut.master_port_0_0_c_valid;
   const auto &ready = dut.master_port_0_0_c_ready;
 
-  while (ready.value == 0)
-    clk.Step();
+  while (ready.value == 0) clk.Step();
   valid.value = 1;
   dut.master_port_0_0_c_bits_opcode.value = opcode;
-  dut.master_port_0_0_c_bits_param.value = 0x0;
   dut.master_port_0_0_c_bits_size.value = size;
-  dut.master_port_0_0_c_bits_source.value = 0x0;
   dut.master_port_0_0_c_bits_address.value = address;
-  dut.master_port_0_0_c_bits_user_alias.value = 0x0;
   dut.master_port_0_0_c_bits_data.value = data;
-  dut.master_port_0_0_c_bits_corrupt.value = 0x0;
   clk.Step();
   valid.value = 0;
 }
@@ -86,26 +80,21 @@ inline void getD() {
   const auto &ready = dut.master_port_0_0_d_ready;
   ready.value = 1;
   clk.Step();
-  while (valid.value == 0) {
-    clk.Step();
-  }
+  while (valid.value == 0) clk.Step();
   ready.value = 0;
 }
 
 inline void sendE(const uint32_t sink) {
   const auto &valid = dut.master_port_0_0_e_valid;
   const auto &ready = dut.master_port_0_0_e_ready;
-  while (ready.value == 0)
-    clk.Step();
+  while (ready.value == 0) clk.Step();
   valid.value = 1;
   dut.master_port_0_0_e_bits_sink.value = sink;
   clk.Step();
   valid.value = 0;
 }
 
-inline void AcquireBlock(const uint32_t address) {
-  sendA(OpcodeA::AcquireBlock, 0x6, address);
-}
+inline void AcquireBlock(const uint32_t address) { sendA(OpcodeA::AcquireBlock, 0x6, address); }
 
 inline void GrantData(TLDataArray &r_data) {
   const auto &opcode = dut.master_port_0_0_d_bits_opcode;
@@ -117,19 +106,16 @@ inline void GrantData(TLDataArray &r_data) {
   }
 }
 
-inline void GrantAck(const uint32_t sink) {
-  sendE(sink);
-}
+inline void GrantAck(const uint32_t sink) { sendE(sink); }
 
 inline void ReleaseData(const uint32_t address, const TLDataArray &data) {
-  for (int i = 0; i < 2; i++) {
+  for (int i = 0; i < 2; i++)
     sendC(OpcodeC::ReleaseData, 0x6, address, data[i]);
-  }
 }
 
 inline void ReleaseAck() {
   const auto &opcode = dut.master_port_0_0_d_bits_opcode;
-  do { getD(); } while(opcode.value != OpcodeD::ReleaseAck);
+  do { getD(); } while (opcode.value != OpcodeD::ReleaseAck);
 }
 
 int main() {
@@ -148,7 +134,7 @@ int main() {
   for (int i = 0; i < 100; i++) clk.Step();
 
   /* Test loop */
-  for (int test_loop = 0; test_loop < 1000; test_loop++) {
+  for (int test_loop = 0; test_loop < 4000; test_loop++) {
     uint32_t d_sink;
     TLDataArray data{}, r_data{};
     /* Generate random */
@@ -161,6 +147,7 @@ int main() {
     AcquireBlock(address);
     GrantData(r_data);
 
+    // Print read result
     printf("Read: ");
     for (const auto &x : r_data)
       printf("%08lx", x);
@@ -172,11 +159,13 @@ int main() {
     /* Write */
     ReleaseData(address, data);
     ref_data[address >> 6] = data;
+    ReleaseAck();
+
+    // Print write data
     printf(", Write: ");
     for (const auto &x : data)
       printf("%08lx", x);
-    puts(".");
-    ReleaseAck();
+    printf(".\n");
   }
 
   return 0;
