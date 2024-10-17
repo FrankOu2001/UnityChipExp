@@ -30,14 +30,8 @@ inline void sendA(const OpcodeA opcode, const uint32_t size, const uint32_t addr
   while (ready.value == 0x0) clk.Step();
   valid.value = 1;
   dut.master_port_0_0_a_bits_opcode.value = opcode;
-  dut.master_port_0_0_a_bits_param.value = 0x0;
   dut.master_port_0_0_a_bits_size.value = size;
-  dut.master_port_0_0_a_bits_source.value = 0x0;
   dut.master_port_0_0_a_bits_address.value = address;
-  dut.master_port_0_0_a_bits_user_alias.value = 0x0;
-  dut.master_port_0_0_a_bits_mask.value = 0x0;
-  dut.master_port_0_0_a_bits_data.value = 0x0;
-  dut.master_port_0_0_a_bits_corrupt.value = 0x0;
   clk.Step();
   valid.value = 0;
 }
